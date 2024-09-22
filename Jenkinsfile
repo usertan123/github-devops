@@ -1,17 +1,18 @@
 node {
     stage('git checkout'){
         git branch: 'main', credentialsId: 'ec2', url: 'git@github.com:usertan123/github-devops.git'
+        sh 'ls -l'
     }
     stage('Docker build image'){
-        sh 'docker image built -t $JOB_NAME:v1.$BUILD_ID . --no-cache'
+        sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID . --no-cache'
         sh 'docker image tag $JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:v1.$BUILD_ID'
         sh 'docker image tag $JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:latest'
     }
     stage('Pushing docker image to dockerhub'){
         withCredentials([string(credentialsId: 'dockerpassword', variable: 'password')]) {
         sh 'docker login -u tanmaytech -p ${password}'  
-        sh 'docker image push tanmay/$JOB_NAME:v1.$BUILD_ID'
-        sh 'docker image push tanmay/$JOB_NAME:latest'
+        sh 'docker image push tanmaytech/$JOB_NAME:v1.$BUILD_ID'
+        sh 'docker image push tanmaytech/$JOB_NAME:latest'
 
         sh 'docker rmi $JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:latest' 
 
