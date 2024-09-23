@@ -11,12 +11,13 @@ RUN rm -rf /var/www/html/*
 
 # Download and unzip the template into the web directory
 # ADD https://www.free-css.com/assets/files/free-css-templates/download/page283/ninom.zip /var/www/html
-RUN curl -o /var/www/html/ninom.zip https://www.free-css.com/assets/files/free-css-templates/download/page283/ninom.zip
+# RUN curl -o /var/www/html/ninom.zip https://www.free-css.com/assets/files/free-css-templates/download/page283/ninom.zip
+RUN curl -o /var/www/html/antique-cafe.zip https://www.free-css.com/assets/files/free-css-templates/download/page295/antique-cafe.zip
 WORKDIR /var/www/html/
-RUN unzip ninom.zip
+RUN unzip antique-cafe.zip
 
 # Move the extracted files to the correct location
-RUN cp -rvf ninom-html/* . 
+RUN cp -rvf 2126_antique_cafe/* . 
 
 # Clean up unnecessary files
 RUN rm -rf ninom.zip ninom-html
@@ -38,7 +39,7 @@ CMD ["nginx", "-g", "daemon off;"]
 # RUN apt update -y && apt install nginx -y unzip curl
 # RUN rm -rf /var/www/html/*   
 # RUN apt install unzip -y
-# ADD https://www.free-css.com/assets/files/free-css-templates/download/page290/maria-ferrero.zip /var/www/html
+# RUN curl -o /var/www/html/maria-ferrero.zip https://www.free-css.com/assets/files/free-css-templates/download/page290/maria-ferrero.zip 
 # WORKDIR /var/www/html
 # RUN unzip maria-ferrero.zip
 # RUN cp -rvf One-Page-Portfolio-Template-master/* .
