@@ -23,9 +23,9 @@ node {
         def docker_rmi = 'docker rmi -f tanmaytech/$JOB_NAME'
         def docker_rmv = 'docker rm -f scriptcontainer '
         sshagent(['webapp-node']) {
-            sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.51.10 ${docker_rmi}"
-            sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.51.10 ${docker_rmv}"
-            sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.51.10 ${docker_run}"
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.56.30 ${docker_rmi}"
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.56.30 ${docker_rmv}"
+            sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.56.30 ${docker_run}"
         }
     }
 
