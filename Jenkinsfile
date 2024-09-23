@@ -1,35 +1,35 @@
-node {
-    stage('git checkout'){
-        git branch: 'main', credentialsId: 'ec2', url: 'git@github.com:usertan123/github-devops.git'
-        sh 'ls -l'
-    }
-    stage('Docker build image'){
-        sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID . --no-cache'
-        sh 'docker image tag $JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:v1.$BUILD_ID'
-        sh 'docker image tag $JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:latest'
-    }
-    stage('Pushing docker image to dockerhub'){
-        withCredentials([string(credentialsId: 'dockerpassword', variable: 'password')]) {
-        sh 'docker login -u tanmaytech -p ${password}'  
-        sh 'docker image push tanmaytech/$JOB_NAME:v1.$BUILD_ID'
-        sh 'docker image push tanmaytech/$JOB_NAME:latest'
-
-        sh 'docker rmi $JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:latest' 
-
+    node {
+        stage('git checkout'){
+            git branch: 'main', credentialsId: 'ec2', url: 'git@github.com:usertan123/github-devops.git'
+            sh 'ls -l'
         }
-    }
-    stage('docker container deployment'){
-        def docker_run = 'docker run -itd --name scriptcontainer -p 9000:80 tanmaytech/$JOB_NAME'
-        def docker_rmi = 'docker rmi -f tanmaytech/$JOB_NAME'
-        def docker_rmv = 'docker rm -f scriptcontainer '
-        sshagent(['webapp-node']) {
-            sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.56.30 ${docker_rmi}"
-            sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.56.30 ${docker_rmv}"
-            sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.56.30 ${docker_run}"
+        stage('Docker build image'){
+            sh 'docker image build -t $JOB_NAME:v1.$BUILD_ID . --no-cache'
+            sh 'docker image tag $JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:v1.$BUILD_ID'
+            sh 'docker image tag $JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:latest'
         }
-    }
+        stage('Pushing docker image to dockerhub'){
+            withCredentials([string(credentialsId: 'dockerpassword', variable: 'password')]) {
+            sh 'docker login -u tanmaytech -p ${password}'  
+            sh 'docker image push tanmaytech/$JOB_NAME:v1.$BUILD_ID'
+            sh 'docker image push tanmaytech/$JOB_NAME:latest'
 
-}
+            sh 'docker rmi $JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:v1.$BUILD_ID tanmaytech/$JOB_NAME:latest' 
+
+            }
+        }
+        stage('docker container deployment'){
+            def docker_run = 'docker run -itd --name scriptcontainer -p 9000:80 tanmaytech/$JOB_NAME'
+            def docker_rmi = 'docker rmi -f tanmaytech/$JOB_NAME'
+            def docker_rmv = 'docker rm -f scriptcontainer '
+            sshagent(['webapp-node']) {
+                sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.56.30 ${docker_rmi}"
+                sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.56.30 ${docker_rmv}"
+                sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.56.30 ${docker_run}"
+            }
+        }
+
+    }
 
 
 

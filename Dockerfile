@@ -10,7 +10,8 @@ RUN apt update -y && apt install -y nginx unzip curl
 RUN rm -rf /var/www/html/*
 
 # Download and unzip the template into the web directory
-ADD https://www.free-css.com/assets/files/free-css-templates/download/page283/ninom.zip /var/www/html
+# ADD https://www.free-css.com/assets/files/free-css-templates/download/page283/ninom.zip /var/www/html
+RUN curl -o /var/www/html/ninom.zip https://www.free-css.com/assets/files/free-css-templates/download/page283/ninom.zip
 WORKDIR /var/www/html/
 RUN unzip ninom.zip
 
