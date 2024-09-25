@@ -14,13 +14,13 @@ RUN rm -rf /var/www/html/*
 # RUN curl -o /var/www/html/ninom.zip https://www.free-css.com/assets/files/free-css-templates/download/page283/ninom.zip
 RUN curl -o /var/www/html/antique-cafe.zip https://www.free-css.com/assets/files/free-css-templates/download/page295/antique-cafe.zip
 WORKDIR /var/www/html/
-RUN unzip antique-cafe.zip
+RUN unzip antique-cafe.zip 
 
 # Move the extracted files to the correct location
 RUN cp -rvf 2126_antique_cafe/* . 
 
 # Clean up unnecessary files
-RUN rm -rf antique-cafe.zip
+RUN rm -rf antique-cafe.zip 2126_antique_cafe
 
 # Expose port 80
 EXPOSE 80
