@@ -43,7 +43,7 @@ CMD ["nginx", "-g", "daemon off;"]
 # WORKDIR /var/www/html
 # RUN unzip maria-ferrero.zip
 # RUN cp -rvf One-Page-Portfolio-Template-master/* .
-# RUN rm -rf antique-cafe.zip 
+# RUN rm -rf maria-ferrero.zip
 
 # EXPOSE 80
 # CMD ["nginx", "-g" , "daemon off;"]
