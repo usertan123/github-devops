@@ -20,7 +20,7 @@ RUN unzip antique-cafe.zip
 RUN cp -rvf 2126_antique_cafe/* . 
 
 # Clean up unnecessary files
-RUN rm -rf ninom.zip ninom-html
+RUN rm -rf antique-cafe.zip
 
 # Expose port 80
 EXPOSE 80
